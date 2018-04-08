@@ -44,6 +44,21 @@
           discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
         }).then(function () {
+          var auth = gapi.auth2.getAuthInstance();
+          console.log("auth instance:");
+          console.dir(auth);
+          auth.grantOfflineAccess({'scope': SCOPES}).then(function(resp) {
+            var auth_code = resp.code;
+            console.log("offline access!" + auth_code);
+            console.dir(auth_code);
+          });
+
+
+
+          var authResponse = auth.currentUser.get().getAuthResponse();
+          console.log("auth response:");
+          console.dir(authResponse);
+          console.log("granted scopes: " + auth.currentUser.get().getGrantedScopes());
           // Listen for sign-in state changes.
           gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
           // Handle the initial sign-in state.
@@ -58,6 +73,10 @@
        */
       function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
+          var auth = gapi.auth2.getAuthInstance();
+          var authResponse = auth.currentUser.get().getAuthResponse();
+          // console.dir(authResponse);
+
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
           listUpcomingEvents(null);
@@ -104,7 +123,7 @@
           'orderBy': 'startTime',
           'pageToken' : nextPageToken
         }).then(function (response) {
-          console.log(response);
+          // console.log(response);
           var events = response.result.items;
           appendPre('Upcoming events:');
           if (events.length > 0) {
@@ -120,7 +139,7 @@
             appendPre('No upcoming events found.');
           }
           nextPageToken = response.result.nextPageToken;
-          console.log(nextPageToken);
+          // console.log(nextPageToken);
           if (nextPageToken) {
             listUpcomingEvents(nextPageToken);
           }
