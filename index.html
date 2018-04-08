@@ -7,7 +7,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
 
     <p>Google Calendar API Quickstart</p>
 
@@ -18,29 +17,27 @@
     <pre id="content"></pre>
 
     <script type="text/javascript">
-      // Client ID and API key from the Developer Console
       var CLIENT_ID = '595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd';
       var API_KEY = 'AIzaSyCRqBj90uf7U1sG_tsBJ9O-g-89AGBtF6g';
-      // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-      // Authorization scopes required by the API; multiple scopes can be
-      // included, separated by spaces.
       var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
       var authorizeButton = document.getElementById('authorize-button');
       var signoutButton = document.getElementById('signout-button');
-      console.log("running");
+
       /**
-       *  On load, called to load the auth2 library and API client library.
+       *  Once the Google API JavaScript Library is loaded, we load the OAuth 2.0 and JavaScript Client Library.
+       *  After these have been loaded, we call the initClient method.
        */
-      function handleClientLoad() {
+      function googleApiLibraryLoaded() {
         gapi.load('client:auth2', initClient);
       }
+
       /**
        *  Initializes the API client library and sets up sign-in state
        *  listeners.
        */
       function initClient() {
-        console.log("init client");
         gapi.client.init({
           apiKey: API_KEY,
           clientId: CLIENT_ID,
@@ -63,7 +60,7 @@
         if (isSignedIn) {
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
-          listUpcomingEvents();
+          listUpcomingEvents(null);
         } else {
           authorizeButton.style.display = 'block';
           signoutButton.style.display = 'none';
@@ -97,15 +94,17 @@
        * the authorized user's calendar. If no events are found an
        * appropriate message is printed.
        */
-      function listUpcomingEvents() {
+      function listUpcomingEvents(nextPageToken) {
         gapi.client.calendar.events.list({
           'calendarId': 'primary',
           'timeMin': (new Date()).toISOString(),
           'showDeleted': false,
           'singleEvents': true,
           'maxResults': 10,
-          'orderBy': 'startTime'
-        }).then(function(response) {
+          'orderBy': 'startTime',
+          'pageToken' : nextPageToken
+        }).then(function (response) {
+          console.log(response);
           var events = response.result.items;
           appendPre('Upcoming events:');
           if (events.length > 0) {
@@ -120,12 +119,17 @@
           } else {
             appendPre('No upcoming events found.');
           }
+          nextPageToken = response.result.nextPageToken;
+          console.log(nextPageToken);
+          if (nextPageToken) {
+            listUpcomingEvents(nextPageToken);
+          }
         });
       }
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};handleClientLoad()"
+            onload="this.onload=function(){};googleApiLibraryLoaded()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
   </body>
