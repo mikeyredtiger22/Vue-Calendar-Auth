@@ -44,21 +44,6 @@
           discoveryDocs: DISCOVERY_DOCS,
           scope: SCOPES
         }).then(function () {
-          var auth = gapi.auth2.getAuthInstance();
-          console.log("auth instance:");
-          console.dir(auth);
-          auth.grantOfflineAccess({'scope': SCOPES}).then(function(resp) {
-            var auth_code = resp.code;
-            console.log("offline access!" + auth_code);
-            console.dir(auth_code);
-          });
-
-
-
-          var authResponse = auth.currentUser.get().getAuthResponse();
-          console.log("auth response:");
-          console.dir(authResponse);
-          console.log("granted scopes: " + auth.currentUser.get().getGrantedScopes());
           // Listen for sign-in state changes.
           gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
           // Handle the initial sign-in state.
@@ -75,8 +60,7 @@
         if (isSignedIn) {
           var auth = gapi.auth2.getAuthInstance();
           var authResponse = auth.currentUser.get().getAuthResponse();
-          // console.dir(authResponse);
-
+          console.dir(authResponse);
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
           listUpcomingEvents(null);
@@ -86,10 +70,29 @@
         }
       }
       /**
-       *  Sign in the user upon button click.
+       *  Get user's consent for offline calendar API access using OAuth 2.0, returns auth code.
+       *  Then exchanges auth code for access and refresh tokens via axios request - allowing offline access to calendar API.
        */
       function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
+        gapi.auth2.getAuthInstance().grantOfflineAccess({'scope': SCOPES}).then(function (resp) {
+          var auth_code = resp.code;
+          console.log("offline access!" + auth_code);
+          console.dir(auth_code);
+          axios.post('https://www.googleapis.com/oauth2/v4/token', "", {
+            params: {
+              code: auth_code,
+              client_id: "595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com",
+              client_secret: "ycNillhpt7Sv-E2vLJRkKWML",
+              redirect_uri: "http://localhost:8080",
+              grant_type: 'authorization_code'
+            }
+          }).then(function (response) {
+            console.log('response: ');
+            console.dir(response);
+          }).catch(function (error) {
+            console.dir(error);
+          });
+        });
       }
       /**
        *  Sign out the user upon button click.
@@ -151,5 +154,6 @@
             onload="this.onload=function(){};googleApiLibraryLoaded()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </body>
 </html>
