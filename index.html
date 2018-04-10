@@ -78,7 +78,10 @@
           var auth_code = resp.code;
           console.log("offline access!" + auth_code);
           console.dir(auth_code);
-          axios.post('https://www.googleapis.com/oauth2/v4/token', "", {
+          //axios.post('https://www.googleapis.com/oauth2/v4/token', "", {
+          //todo send auth code to backend
+          axios.post('https://ss-calendar.herokuapp.com/auth', "", {
+            asdf: 'aassddfftest',
             params: {
               code: auth_code,
               client_id: "595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com",
