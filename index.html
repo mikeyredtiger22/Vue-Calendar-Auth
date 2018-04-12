@@ -11,7 +11,7 @@
     <p>Google Calendar API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="authorize-button" style="display: block;">Authorize</button>
     <button id="signout-button" style="display: none;">Sign Out</button>
 
     <pre id="content"></pre>
@@ -23,6 +23,7 @@
       var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 
       var authorizeButton = document.getElementById('authorize-button');
+      authorizeButton.onclick = handleAuthClick;
       var signoutButton = document.getElementById('signout-button');
 
       /**
@@ -38,6 +39,8 @@
        *  listeners.
        */
       function initClient() {
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
         gapi.client.init({
           apiKey: API_KEY,
           clientId: CLIENT_ID,
@@ -74,28 +77,39 @@
        *  Then exchanges auth code for access and refresh tokens via axios request - allowing offline access to calendar API.
        */
       function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().grantOfflineAccess({'scope': SCOPES}).then(function (resp) {
-          var auth_code = resp.code;
-          console.log("offline access!" + auth_code);
-          console.dir(auth_code);
-          //axios.post('https://www.googleapis.com/oauth2/v4/token', "", {
-          //todo send auth code to backend
-          axios.post('https://ss-calendar.herokuapp.com/auth', "", {
-            asdf: 'aassddfftest',
-            params: {
-              code: auth_code,
-              client_id: "595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com",
-              client_secret: "ycNillhpt7Sv-E2vLJRkKWML",
-              redirect_uri: "http://localhost:8080",
-              grant_type: 'authorization_code'
-            }
-          }).then(function (response) {
-            console.log('response: ');
-            console.dir(response);
-          }).catch(function (error) {
-            console.dir(error);
-          });
-        });
+        // gapi.auth2.getAuthInstance().grantOfflineAccess({'scope': SCOPES}).then(function (resp) {
+        // console.log(resp);
+        // });
+        var authRequest = "https://accounts.google.com/o/oauth2/v2/auth?" +
+          "client_id=595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com" +
+          "&redirect_uri=http://localhost:3000/auth" +
+          "&scope=https://www.googleapis.com/auth/calendar.readonly" +
+          "&access_type=offline" +
+          "&response_type=code";
+        window.location.replace(authRequest);
+        // console.log('auth code: ' + authCode);
+        // axios.get('https://accounts.google.com/o/oauth2/v2/auth', "", {
+        //   params: {
+        //     client_id: "595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com",
+        //     redirect_uri: "http://localhost:3000/auth",
+        //     scope: "https://www.googleapis.com/auth/calendar.readonly",
+        //     access_type: "offline"
+        //   }
+        // }).then(function (response) {
+        //   console.log('response: ');
+        //   console.log(response);
+        // }).catch(function (error) {
+        //   // console.log(error);
+        //   console.log('//////');
+        //   console.log(error.data);
+        //   throw error;
+        // });
+
+        // gapi.auth2.getAuthInstance().grantOfflineAccess(
+        //   {'scope': SCOPES, 'redirect_uri': 'http://localhost:3000/auth', 'response_type': 'code'}
+        // ).then(function (resp) {
+        //   console.log('resp: ' + resp);
+        // });
       }
       /**
        *  Sign out the user upon button click.
