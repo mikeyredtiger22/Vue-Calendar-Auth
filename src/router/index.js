@@ -16,7 +16,7 @@ export default new Router({
       name: 'home',
       component: homePage,
       beforeEnter: (to, from, next) => {
-        if (store._modules.root.state.userId) {
+        if (store && store._modules.root.state.userId) {
           next('/home');
         } else {
           next('/login');

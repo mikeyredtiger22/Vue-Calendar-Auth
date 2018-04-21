@@ -1,5 +1,6 @@
 <template>
   <div>
+    <sidebar></sidebar>
     <h1>Home Page</h1>
     <p>{{userId}}</p>
     <p>Welcome Person {{getUserId}}</p>
@@ -34,8 +35,10 @@
 
 <script>
 import axios from 'axios';
+import Sidebar from '../components/sidebar';
 export default {
   name: 'homePage',
+  components: {Sidebar},
   props: ['userId'],
   data: function() {
     return {
