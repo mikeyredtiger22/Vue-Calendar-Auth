@@ -35,10 +35,10 @@
 
 <script>
 import axios from 'axios';
-import Sidebar from '../components/sidebar';
+import sidebar from '../components/sidebar';
 export default {
   name: 'homePage',
-  components: {Sidebar},
+  components: {sidebar},
   props: ['userId'],
   data: function() {
     return {

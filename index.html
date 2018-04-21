@@ -3,32 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>front-end-vue</title>
+    <title>Society Scheduler</title>
   </head>
   <body>
     <div id="vueApp"></div>
-
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: block;">Authorize</button>
-    <script type="text/javascript">
-
-      var authorizeButton = document.getElementById('authorize-button');
-      authorizeButton.onclick = handleAuthClick;
-
-      /**
-       *  Get user's consent for offline calendar API access using OAuth 2.0, returns auth code.
-       *  Then exchanges auth code for access and refresh tokens via axios request - allowing offline access to calendar API.
-       */
-      function handleAuthClick(event) {
-        var authRequest = "https://accounts.google.com/o/oauth2/v2/auth?" +
-          "client_id=595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com" +
-          "&redirect_uri=http://localhost:3000/auth" +
-          "&scope=https://www.googleapis.com/auth/calendar.readonly profile" +
-          "&access_type=offline" +
-          "&response_type=code";
-        window.location.href = (authRequest);
-      }
-    </script>
-
   </body>
 </html>

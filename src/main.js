@@ -7,7 +7,6 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-Vue.use(BootstrapVue);
 Vue.use(Vuex);
 
 const vuexLocalStorage = new VuexPersist({
@@ -17,8 +16,8 @@ const vuexLocalStorage = new VuexPersist({
 
 const store = new Vuex.Store({
   state: {
-    userId: 'init', // todo test
-    societiesObject: {}
+    userId: '',
+    societiesObject: {} // todo use
   },
   mutations: {
     setUserId(state, userId) {
@@ -31,6 +30,10 @@ const store = new Vuex.Store({
   plugins: [vuexLocalStorage.plugin]
 });
 
+export default store;
+
+Vue.use(BootstrapVue);
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
@@ -41,5 +44,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 });
-
-export default store;
