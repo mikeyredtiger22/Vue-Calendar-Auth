@@ -35,8 +35,7 @@ export default new Router({
     {
       path: '/home',
       name: 'homePage',
-      component: homePage,
-      props: true
+      component: homePage
     }
   ]
 });

@@ -17,7 +17,7 @@ const vuexLocalStorage = new VuexPersist({
 const store = new Vuex.Store({
   state: {
     userId: '',
-    societiesObject: {} // todo use
+    userSocietiesInfo: {}
   },
   mutations: {
     setUserId(state, userId) {

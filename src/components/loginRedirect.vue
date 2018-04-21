@@ -4,7 +4,7 @@ export default {
   name: 'loginRedirect',
   beforeCreate: function () {
     this.$store.commit('setUserId', (this.$route.params.userId));
-    this.$router.replace({name: 'homePage', params: {userId: this.$route.params.userId}});
+    this.$router.replace({name: 'homePage'});
   }
 };
 </script>
