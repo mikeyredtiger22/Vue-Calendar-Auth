@@ -67,7 +67,7 @@ export default {
       console.log(soc);
     },
     availableSocietyClick(soc) {
-      console.log('available');
+      console.log('available:');
       console.log(soc);
     }
   },
