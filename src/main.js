@@ -25,6 +25,12 @@ const store = new Vuex.Store({
     },
     clearUserId(state) {
       state.userId = '';
+    },
+    setUserSocietiesInfo(state, socObj) {
+      state.userSocietiesInfo = socObj;
+    },
+    clearUserSocietiesInfo(state) {
+      state.userSocietiesInfo = {};
     }
   },
   plugins: [vuexLocalStorage.plugin]

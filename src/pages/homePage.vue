@@ -1,31 +1,35 @@
 <template>
-  <div>
-    <sidebar></sidebar>
-    <div class="homePage">
-      <h1>Home Page</h1>
-      <p>Welcome Person {{getUserId}}</p>
-      <!--societies-->
-      <div v-if="getUserSocietiesInfo">
-        <!--committees-->
-        <div v-if="getUserSocietiesInfo.committees">
-          <h1>Committees:</h1>
-          <p v-for="society in getUserSocietiesInfo.committees" :key="society._id" v-on:click="committeeClick(society)">
-            {{society.name}}
-          </p>
-        </div>
-        <!--societies-->
-        <div v-if="getUserSocietiesInfo.joined">
-          <h1>Joined Societies:</h1>
-          <p v-for="society in getUserSocietiesInfo.joined" :key="society._id" v-on:click="joinedSocietyClick(society)">
-            {{society.name}}
-          </p>
-        </div>
-        <!--available-->
-        <div v-if="getUserSocietiesInfo.available">
-          <h1>Available Societies:</h1>
-          <p v-for="society in getUserSocietiesInfo.available" :key="society._id" v-on:click="availableSocietyClick(society)">
-            {{society.name}}
-          </p>
+  <div class="container-fluid">
+    <div class="row">
+      <sidebar></sidebar>
+      <div class="col-9">
+        <div class="homePage">
+          <h1>Home Page</h1>
+          <p>Welcome Person {{getUserId}}</p>
+          <!--societies-->
+          <div v-if="getUserSocietiesInfo">
+            <!--committees-->
+            <div v-if="getUserSocietiesInfo.committees">
+              <h1>Committees:</h1>
+              <p v-for="society in getUserSocietiesInfo.committees" :key="society._id" v-on:click="committeeClick(society)">
+                {{society.name}}
+              </p>
+            </div>
+            <!--societies-->
+            <div v-if="getUserSocietiesInfo.joined">
+              <h1>Joined Societies:</h1>
+              <p v-for="society in getUserSocietiesInfo.joined" :key="society._id" v-on:click="joinedSocietyClick(society)">
+                {{society.name}}
+              </p>
+            </div>
+            <!--available-->
+            <div v-if="getUserSocietiesInfo.available">
+              <h1>Available Societies:</h1>
+              <p v-for="society in getUserSocietiesInfo.available" :key="society._id" v-on:click="availableSocietyClick(society)">
+                {{society.name}}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -73,4 +77,8 @@ export default {
 </script>
 
 <style scoped>
+.homePage {
+  /*width: 100%;*/
+  /*display: flex;*/
+}
 </style>
