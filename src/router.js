@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../main.js';
-import loginRedirect from '../components/loginRedirect.vue';
-import login from '../components/login';
-import template from '../components/template.vue';
+import store from './main.js';
+import loginRedirect from './components/loginRedirect.vue';
+import login from './components/login';
+import template from './components/template.vue';
 
 Vue.use(Router);
 
