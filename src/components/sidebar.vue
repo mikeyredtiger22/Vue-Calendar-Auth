@@ -45,8 +45,8 @@ export default {
     };
   },
   methods: {
-    showAvailableSocieties (event) {
-      console.log('ev:', event);
+    showAvailableSocieties() {
+      // send event to parent event handler
       this.$emit('action', 'available');
     }
   },

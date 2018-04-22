@@ -4,7 +4,7 @@
       <div class="col-12 col-md-4 col-lg-3 p-0">
         <sidebar v-on:action="showAvailableSocieties"></sidebar>
       </div>
-      <div class="col-12 col-md-8 col-lg-9 p-4">
+      <div class="col-12 col-md-8 col-lg-9 p-4 scrollingContentPage">
         <available-societies-grid v-if="this.page === 'available'">
         </available-societies-grid>
         <div v-if="this.page === 'home'" class="homePage">
@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     showAvailableSocieties(event) {
+      // todo will update when more pages are added
       console.log('event: ', event);
       if (this.page === 'home') {
         this.page = 'available';
@@ -70,5 +71,12 @@ export default {
 <style scoped>
 .full-height {
   min-height: 100%;
+}
+/* if sidebar is shown on left, fix sidebar and scroll content page*/
+@media (min-width: 768px) {
+  .scrollingContentPage {
+    overflow: auto;
+    height: 100vh;
+  }
 }
 </style>

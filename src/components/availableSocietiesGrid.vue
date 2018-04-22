@@ -1,12 +1,39 @@
 <template>
-  <div>
-    <div class="card" style="width: 18rem;">
+  <div class="row">
+    <div class="card m-3" style="width: auto">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+        <h2 class="card-title">Southampton Unwdwdion Rugby</h2>
+        <a class="btn btn-success">Join Society</a>
+      </div>
+    </div>
+    <div class="card m-3" style="width: auto">
+      <div class="card-body">
+        <h2 class="card-title">Southa mpto nwd wddd Union Rugby</h2>
+        <a class="btn btn-success">Join Society</a>
+      </div>
+    </div>
+    <div v-for="society in availableSocieties" :key="society._id" class="card m-3" style="width: auto">
+      <div class="card-body">
+        <h2 class="card-title">{{society.name}}</h2>
+        <a class="btn btn-success">Join Society</a>
+      </div>
+    </div>
+    <div class="card m-3" style="width: auto">
+      <div class="card-body">
+        <h2 class="card-title">Southampton Union Rugby</h2>
+        <a class="btn btn-success">Join Society</a>
+      </div>
+    </div>
+    <div class="card m-3" style="width: auto">
+      <div class="card-body">
+        <h2 class="card-title">SouthamptonUnwdwdion Rugby</h2>
+        <a class="btn btn-success">Join Society</a>
+      </div>
+    </div>
+    <div class="card m-3" style="width: auto">
+      <div class="card-body">
+        <h2 class="card-title">Southa mpto nwd wddd Union Rugby</h2>
+        <a class="btn btn-success">Join Society</a>
       </div>
     </div>
   </div>
@@ -17,11 +44,11 @@ export default {
   name: 'availableSocietiesGrid',
   data: function() {
     return {
-      userSocietiesInfo: {}
+      availableSocieties: {}
     };
   },
   created: function() {
-    this.userSocietiesInfo = this.$store.state.userSocietiesInfo;
+    this.availableSocieties = this.$store.state.userSocietiesInfo.available;
   }
 };
 </script>
