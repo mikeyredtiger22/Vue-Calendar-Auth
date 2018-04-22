@@ -10,10 +10,9 @@ Vue.use(Router);
 export default new Router({
   mode: 'history',
   routes: [
-    // todo authenticate all paths
     {
       path: '/',
-      name: 'home',
+      name: 'index',
       component: Template,
       beforeEnter: (to, from, next) => {
         if (store && store._modules.root.state.userId) {
@@ -34,8 +33,15 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'template',
-      component: Template
+      name: 'Template',
+      component: Template,
+      beforeEnter: (to, from, next) => {
+        if (store && store._modules.root.state.userId) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
     }
   ]
 });
