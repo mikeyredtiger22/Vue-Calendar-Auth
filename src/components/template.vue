@@ -16,9 +16,9 @@
 
 <script>
 import axios from 'axios';
-import sidebar from '../components/sidebar';
+import sidebar from './sidebar';
 export default {
-  name: 'homePage',
+  name: 'template',
   components: {sidebar},
   data: function() {
     return {

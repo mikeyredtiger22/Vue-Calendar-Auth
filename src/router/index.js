@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import store from '../main.js';
 import loginRedirect from '../components/loginRedirect.vue';
 import login from '../components/login';
-import homePage from '../pages/homePage.vue';
+import template from '../components/template.vue';
 
 Vue.use(Router);
 
@@ -14,7 +14,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: homePage,
+      component: template,
       beforeEnter: (to, from, next) => {
         if (store && store._modules.root.state.userId) {
           next('/home');
@@ -34,8 +34,8 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'homePage',
-      component: homePage
+      name: 'template',
+      component: template
     }
   ]
 });
