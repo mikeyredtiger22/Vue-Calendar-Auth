@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid full-height">
+    <div class="row full-height">
       <sidebar></sidebar>
-      <div class="col-9">
+      <div class="col-12 col-md-9 col-lg-8">
         <div class="homePage">
           <h1>Home Page</h1>
           <p>Welcome Person {{getUserId}}</p>
@@ -77,8 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.homePage {
-  /*width: 100%;*/
-  /*display: flex;*/
+.full-height {
+  height: 100vh;
 }
 </style>
