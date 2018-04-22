@@ -39,19 +39,16 @@
 <script>
 export default {
   name: 'sidebar',
-  data: function() {
-    return {
-      userSocietiesInfo: {}
-    };
-  },
   methods: {
     showAvailableSocieties() {
       // send event to parent event handler
       this.$emit('action', 'available');
     }
   },
-  created: function() {
-    this.userSocietiesInfo = this.$store.state.userSocietiesInfo;
+  computed: {
+    userSocietiesInfo() {
+      return this.$store.state.userSocietiesInfo;
+    }
   }
 };
 </script>
