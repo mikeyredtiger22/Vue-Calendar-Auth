@@ -29,7 +29,7 @@
       <li v-on:click="showAvailableSocieties" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
         Join Societies
       </li>
-      <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+      <li v-on:click="createSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
         Create Society
       </li>
     </ul>
@@ -37,12 +37,27 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'sidebar',
   methods: {
     showAvailableSocieties() {
       // send event to parent event handler
       this.$emit('action', 'available');
+    },
+    createSociety() {
+      var societyName = prompt('Enter name of society');
+      if (societyName) {
+        axios.post('http://localhost:3000/user', null,
+          {params: {userId: this.$store.state.userId, societyName: societyName}})
+          .then((response) => {
+            console.log(response.data);
+            this.$emit('refresh');
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
   },
   computed: {

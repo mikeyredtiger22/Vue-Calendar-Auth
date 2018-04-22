@@ -2,10 +2,10 @@
   <div class="container-fluid full-height">
     <div class="row full-height">
       <div class="col-12 col-md-4 col-lg-3 p-0">
-        <sidebar v-on:action="showAvailableSocieties"></sidebar>
+        <sidebar v-on:action="showAvailableSocieties" v-on:refresh="refreshUserSocietiesInfo"></sidebar>
       </div>
       <div class="col-12 col-md-8 col-lg-9 p-4 scrollingContentPage">
-        <available-societies-grid v-if="this.page === 'available'">
+        <available-societies-grid v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
         </available-societies-grid>
         <div v-if="this.page === 'home'" class="homePage">
           <h1>Home Page</h1>
@@ -43,17 +43,14 @@ export default {
         this.page = 'home';
       }
     },
-    committeeClick(soc) {
-      console.log('committee:');
-      console.log(soc);
-    },
-    joinedSocietyClick(soc) {
-      console.log('joined:');
-      console.log(soc);
-    },
-    availableSocietyClick(soc) {
-      console.log('available:');
-      console.log(soc);
+    refreshUserSocietiesInfo() {
+      axios.get('http://localhost:3000/user', {params: {userId: this.$store.state.userId}})
+        .then((response) => {
+          this.$store.commit('setUserSocietiesInfo', response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   },
   beforeCreate: function() {
