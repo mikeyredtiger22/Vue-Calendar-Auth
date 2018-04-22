@@ -26,7 +26,7 @@
       </li>
       <!--<li class="border-bottom mt-3 border-dark">-->
       <!--</li>-->
-      <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+      <li v-on:click="showAvailableSocieties" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
         Join Societies
       </li>
       <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
@@ -43,6 +43,12 @@ export default {
     return {
       userSocietiesInfo: {}
     };
+  },
+  methods: {
+    showAvailableSocieties (event) {
+      console.log('ev:', event);
+      this.$emit('action', 'available');
+    }
   },
   created: function() {
     this.userSocietiesInfo = this.$store.state.userSocietiesInfo;
