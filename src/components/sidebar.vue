@@ -1,61 +1,41 @@
 <template>
-  <div class="col-12 col-md-3 p-0 sidebar">
-    <nav class="navbar navbar-expand flex-column p-0">
+  <div class="col-12 col-md-4 col-lg-3 p-0">
+    <nav class="navbar navbar-expand flex-column p-0 sidebar">
       <ul class="flex-column navbar-nav w-100">
         <!--sidebar content-->
         <li class="title m-3">
           Society Scheduler
         </li>
         <!--Committees-->
-        <li v-if="userSocietiesInfo.committees" class="border-bottom border-top border-dark mt-3">
-          <a class="m-3 heading">Committees</a>
+        <li v-if="userSocietiesInfo.committees" class="heading border-bottom border-dark mt-3 mx-3 pb-0">
+          <a class="">Committees</a>
         </li>
-        <li class="mt-2 mx-2 item btn btn-outline-primary text-left">
+        <li class="item pl-4 btn btn-outline-primary text-left">
           Southampton Union Rugby
         </li>
-        <li v-for="society in userSocietiesInfo.committees" :key="society._id" v-on:click="committeeClick(society)"
-            class="mt-2 mx-2 item btn btn-outline-primary text-left">
+        <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id" v-on:click="committeeClick(society)"
+            class="item pl-4 btn btn-outline-primary text-left">
           {{society.name}}
         </li>
         <!--Joined Societies-->
-        <li v-if="userSocietiesInfo.joined" class="border-bottom border-top border-dark mt-3">
-          <a class="m-3 heading">Societies</a>
+        <li v-if="userSocietiesInfo.joined" class="heading border-bottom border-dark mt-3 mx-3">
+          <a class="">Societies</a>
         </li>
-        <li v-for="society in userSocietiesInfo.joined" :key="society._id" v-on:click="committeeClick(society)"
-            class="mt-2 mx-2 item btn btn-outline-primary text-left">
+        <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id" v-on:click="committeeClick(society)"
+            class="item px-4 btn btn-outline-primary text-left">
           {{society.name}}
         </li>
-        <li>
-
+        <!--<li class="border-bottom mt-3 border-dark">-->
+        <!--</li>-->
+        <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+          Join Societies
+        </li>
+        <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+          Create Society
         </li>
       </ul>
     </nav>
   </div>
-    <!--<div class="sidebar col-12 col-md-3 col-lg-4">
-      <h1>SOC</h1>
-      <ul class="nav flex-column">
-        <div v-if="getUserSocietiesInfo">
-          &lt;!&ndash;committees&ndash;&gt;
-          <div v-if="getUserSocietiesInfo.committees">
-            <h2>Committees:</h2>
-            <sb-item v-for="society in getUserSocietiesInfo.committees" :key="society._id"
-               v-on:click="committeeClick(society)">
-              {{society.name}}
-            </sb-item>
-          </div>
-          &lt;!&ndash;societies&ndash;&gt;
-          <div v-if="getUserSocietiesInfo.joined">
-            <sb-heading>Joined Societies:</sb-heading>
-            <p v-for="society in getUserSocietiesInfo.joined" :key="society._id"
-               v-on:click="joinedSocietyClick(society)">
-              {{society.name}}
-            </p>
-          </div>
-        </div>
-        <b-nav-item>Create Society</b-nav-item>
-        <b-nav-item>Log Out</b-nav-item>
-      </ul>
-    </div>-->
 </template>
 
 <script>
@@ -76,16 +56,27 @@ export default {
 .sidebar {
   background: #f1f1f1;
   padding: 20px;
+  min-height: 100vh;
 }
 .title {
-  font-size: 2.5rem;
+  font-size: 3.25rem;
 }
 .heading {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  border-color: #2e2e2e;
 }
 .item {
   font-size: 1.25rem;
   overflow: hidden;
   text-overflow: clip;
+  border: none;
+  border-radius: 0;
+}
+.heading-item {
+  font-size: 2rem;
+  overflow: hidden;
+  text-overflow: clip;
+  border: none;
+  border-radius: 0;
 }
 </style>

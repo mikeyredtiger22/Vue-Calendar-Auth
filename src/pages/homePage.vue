@@ -2,7 +2,7 @@
   <div class="container-fluid full-height">
     <div class="row full-height">
       <sidebar></sidebar>
-      <div class="col-12 col-md-9 p-4">
+      <div class="col-12 col-md-8 col-lg-9 p-4">
         <div class="homePage">
           <h1>Home Page</h1>
           <p>Welcome Person {{getUserId}}</p>
@@ -78,6 +78,6 @@ export default {
 
 <style scoped>
 .full-height {
-  height: 100vh;
+  min-height: 100%;
 }
 </style>
