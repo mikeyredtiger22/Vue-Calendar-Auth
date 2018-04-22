@@ -1,35 +1,13 @@
 <template>
   <div class="container-fluid full-height">
     <div class="row full-height">
-      <sidebar></sidebar>
+      <div class="col-12 col-md-4 col-lg-3 p-0">
+        <sidebar></sidebar>
+      </div>
       <div class="col-12 col-md-8 col-lg-9 p-4">
         <div class="homePage">
           <h1>Home Page</h1>
           <p>Welcome Person {{getUserId}}</p>
-          <!--societies-->
-          <div v-if="getUserSocietiesInfo">
-            <!--committees-->
-            <div v-if="getUserSocietiesInfo.committees">
-              <h1>Committees:</h1>
-              <p v-for="society in getUserSocietiesInfo.committees" :key="society._id" v-on:click="committeeClick(society)">
-                {{society.name}}
-              </p>
-            </div>
-            <!--societies-->
-            <div v-if="getUserSocietiesInfo.joined">
-              <h1>Joined Societies:</h1>
-              <p v-for="society in getUserSocietiesInfo.joined" :key="society._id" v-on:click="joinedSocietyClick(society)">
-                {{society.name}}
-              </p>
-            </div>
-            <!--available-->
-            <div v-if="getUserSocietiesInfo.available">
-              <h1>Available Societies:</h1>
-              <p v-for="society in getUserSocietiesInfo.available" :key="society._id" v-on:click="availableSocietyClick(society)">
-                {{society.name}}
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -42,12 +20,14 @@ import sidebar from '../components/sidebar';
 export default {
   name: 'homePage',
   components: {sidebar},
+  data: function() {
+    return {
+      page: ''
+    };
+  },
   computed: {
     getUserId() {
       return this.$store.state.userId;
-    },
-    getUserSocietiesInfo() {
-      return this.$store.state.userSocietiesInfo;
     }
   },
   methods: {

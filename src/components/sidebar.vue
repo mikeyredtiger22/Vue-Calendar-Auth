@@ -1,41 +1,39 @@
 <template>
-  <div class="col-12 col-md-4 col-lg-3 p-0">
-    <nav class="navbar navbar-expand flex-column p-0 sidebar">
-      <ul class="flex-column navbar-nav w-100">
-        <!--sidebar content-->
-        <li class="title m-3">
-          Society Scheduler
-        </li>
-        <!--Committees-->
-        <li v-if="userSocietiesInfo.committees" class="heading border-bottom border-dark mt-3 mx-3 pb-0">
-          <a class="">Committees</a>
-        </li>
-        <li class="item pl-4 btn btn-outline-primary text-left">
-          Southampton Union Rugby
-        </li>
-        <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id" v-on:click="committeeClick(society)"
-            class="item pl-4 btn btn-outline-primary text-left">
-          {{society.name}}
-        </li>
-        <!--Joined Societies-->
-        <li v-if="userSocietiesInfo.joined" class="heading border-bottom border-dark mt-3 mx-3">
-          <a class="">Societies</a>
-        </li>
-        <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id" v-on:click="committeeClick(society)"
-            class="item px-4 btn btn-outline-primary text-left">
-          {{society.name}}
-        </li>
-        <!--<li class="border-bottom mt-3 border-dark">-->
-        <!--</li>-->
-        <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
-          Join Societies
-        </li>
-        <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
-          Create Society
-        </li>
-      </ul>
-    </nav>
-  </div>
+  <nav class="navbar navbar-expand flex-column p-0 sidebar">
+    <ul class="flex-column navbar-nav w-100">
+      <!--sidebar content-->
+      <li class="title m-3">
+        Society Scheduler
+      </li>
+      <!--Committees-->
+      <li v-if="userSocietiesInfo.committees" class="heading border-bottom border-dark mt-3 mx-3 pb-0">
+        <a class="">Committees</a>
+      </li>
+      <li class="item pl-4 btn btn-outline-primary text-left">
+        Southampton Union Rugby
+      </li>
+      <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id" v-on:click="committeeClick(society)"
+          class="item pl-4 btn btn-outline-primary text-left">
+        {{society.name}}
+      </li>
+      <!--Joined Societies-->
+      <li v-if="userSocietiesInfo.joined" class="heading border-bottom border-dark mt-3 mx-3">
+        <a class="">Societies</a>
+      </li>
+      <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id" v-on:click="committeeClick(society)"
+          class="item px-4 btn btn-outline-primary text-left">
+        {{society.name}}
+      </li>
+      <!--<li class="border-bottom mt-3 border-dark">-->
+      <!--</li>-->
+      <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+        Join Societies
+      </li>
+      <li class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+        Create Society
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
