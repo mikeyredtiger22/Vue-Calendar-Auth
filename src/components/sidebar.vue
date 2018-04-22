@@ -1,22 +1,22 @@
 <template>
-  <div class="col-12 col-md-2 p-0 bg-dark">
-    <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column align-items-start py-2">
+  <div class="col-12 col-md-3 col-lg-2 p-0 sidebar">
+    <nav class="navbar navbar-expand flex-column align-items-start py-2">
       <div class="collapse navbar-collapse">
-        <ul class="flex-md-column navbar-nav w-100 justify-content-between">
+        <ul class="flex-column navbar-nav w-100 justify-content-between">
           <li class="nav-item">
-            <a class="nav-link pl-0 text-nowrap" href="#">Brand</a>
+            <a class="nav-link pl-0 title" href="#">Society Scheduler</a>
           </li>
           <li class="nav-item">
             <a class="nav-link pl-0" href="#">Link 1</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link pl-0" href="#">Link 2</a>
+            <a class="nav-link pl-0 heading" href="#">Link 2</a>
           </li>
           <li class="nav-item">
             <a class="nav-link pl-0" href="#">Link 3</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link pl-0" href="#">Link 4</a>
+            <a class="nav-link pl-0 item" href="#">Link 4</a>
           </li>
           <li class="nav-item">
             <a class="nav-link pl-0" href="#">Link 5</a>
@@ -65,23 +65,17 @@ export default {
 
 <style scoped>
 .sidebar {
-  height: 100vh;
-  z-index: 1;
-  top: 0;
-  left: 0;
   background: #9b9b9b;
   padding: 20px;
-  text-align: left;
 }
-sb-title {
-  font-size: 3vw;
+.title {
+  font-size: 2rem;
 }
-sb-heading {
-  font-size: 1.5vw;
-  color: #000;
+.heading {
+  font-size: 1.5rem;
 }
-sb-item {
-  font-size: 1.5vw;
+.item {
+  font-size: 1rem;
   display: block;
 }
 </style>
