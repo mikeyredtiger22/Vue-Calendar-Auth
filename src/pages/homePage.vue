@@ -2,7 +2,7 @@
   <div class="container-fluid full-height">
     <div class="row full-height">
       <sidebar></sidebar>
-      <div class="col-12 col-md-9 col-lg-8 p-4">
+      <div class="col-12 col-md-9 p-4">
         <div class="homePage">
           <h1>Home Page</h1>
           <p>Welcome Person {{getUserId}}</p>

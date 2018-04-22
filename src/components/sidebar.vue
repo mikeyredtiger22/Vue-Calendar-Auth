@@ -1,23 +1,32 @@
 <template>
-  <div class="col-12 col-md-3 col-lg-2 p-0 sidebar">
-    <nav class="navbar navbar-expand flex-column align-items-start p-0">
-      <ul class="flex-column navbar-nav w-100 justify-content-between">
+  <div class="col-12 col-md-3 p-0 sidebar">
+    <nav class="navbar navbar-expand flex-column p-0">
+      <ul class="flex-column navbar-nav w-100">
         <!--sidebar content-->
-        <li class="nav-item pb-4 title m-3">Society Scheduler
+        <li class="title m-3">
+          Society Scheduler
         </li>
         <!--Committees-->
-        <li v-if="userSocietiesInfo.committees" class="nav-item border-bottom border-top border-secondary">
+        <li v-if="userSocietiesInfo.committees" class="border-bottom border-top border-dark mt-3">
           <a class="m-3 heading">Committees</a>
         </li>
-        <li v-for="society in userSocietiesInfo.committees" :key="society._id" class="ml-3 py-1 item">
-          <a v-on:click="committeeClick(society)" href="#" >{{society.name}}</a>
+        <li class="mt-2 mx-2 item btn btn-outline-primary text-left">
+          Southampton Union Rugby
+        </li>
+        <li v-for="society in userSocietiesInfo.committees" :key="society._id" v-on:click="committeeClick(society)"
+            class="mt-2 mx-2 item btn btn-outline-primary text-left">
+          {{society.name}}
         </li>
         <!--Joined Societies-->
-        <li v-if="userSocietiesInfo.joined" class="nav-item border-bottom border-top border-secondary">
-          <a class="m-3 heading">My Societies</a>
+        <li v-if="userSocietiesInfo.joined" class="border-bottom border-top border-dark mt-3">
+          <a class="m-3 heading">Societies</a>
         </li>
-        <li v-for="society in userSocietiesInfo.joined" :key="society._id" class="ml-3 py-1 item">
-          <a v-on:click="committeeClick(society)" href="#" >{{society.name}}</a>
+        <li v-for="society in userSocietiesInfo.joined" :key="society._id" v-on:click="committeeClick(society)"
+            class="mt-2 mx-2 item btn btn-outline-primary text-left">
+          {{society.name}}
+        </li>
+        <li>
+
         </li>
       </ul>
     </nav>
@@ -65,17 +74,18 @@ export default {
 
 <style scoped>
 .sidebar {
-  background: #9b9b9b;
+  background: #f1f1f1;
   padding: 20px;
 }
 .title {
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 .heading {
   font-size: 1.5rem;
 }
 .item {
   font-size: 1.25rem;
-  display: block;
+  overflow: hidden;
+  text-overflow: clip;
 }
 </style>
