@@ -8,13 +8,14 @@
       <!--Committees-->
       <li class="divider">
       </li>
-      <li v-on:click="createSociety" class="my-2 px-3 heading-item btn btn-outline-primary text-left">
-        Create Society
+      <li id="create-button" class="py-2 px-3 heading-item btn btn-outline-primary text-left">
+        Create Society <span class="pl-2">&#9656;</span>
       </li>
       <li class="divider">
       </li>
-      <li v-on:click="createSociety" class="my-2 px-3 heading-item btn btn-outline-primary text-left">
-        Delete Society
+      <li id="delete-button" v-on:click="openedDeleteSociety"
+          class="py-2 px-3 heading-item btn btn-outline-primary text-left">
+        Delete Society <span class="pl-2">&#9656;</span>
       </li>
       <li v-if="userSocietiesInfo.committees" class="heading px-3 py-2">
         <a class="">My Societies</a>
@@ -25,24 +26,15 @@
       </li>
       <!--Joined Societies-->
       <li v-on:click="showAvailableSocieties"
-          class="my-2 px-3 heading-item btn btn-outline-primary text-left">
-        Join Societies
+          class="py-2 px-3 heading-item btn btn-outline-primary text-left">
+        Join Societies <span class="pl-2">&#9656;</span>
       </li>
       <li class="divider">
       </li>
       <li id="leave-button" v-on:click="openedLeaveSociety"
-          class="my-2 px-3 heading-item btn btn-outline-primary text-left">
-        Leave Society
+          class="py-2 px-3 heading-item btn btn-outline-primary text-left">
+        Leave Society <span class="pl-2">&#9656;</span>
       </li>
-      <b-popover placement="rightbottom" target="leave-button" title="Select society to leave">
-        <b-dropdown text="Select">
-          <b-dropdown-item-button v-for="society in userSocietiesInfo.joined" :key="'d'+society._id"
-                                  v-on:click="choseLeaveSociety(society)">
-            {{society.name}}
-          </b-dropdown-item-button>
-        </b-dropdown>
-        <button v-on:click="leaveSociety" class="btn btn-success">Leave</button>
-      </b-popover>
       <li v-if="userSocietiesInfo.joined" class="heading px-3 py-2">
         <a class="">Joined Societies</a>
       </li>
@@ -51,6 +43,41 @@
         {{society.name}}
       </li>
     </ul>
+    <!--Create society popup-->
+    <b-popover placement="auto" target="create-button" title="Enter name of new society">
+      <div class="input-group">
+          <input v-model.lazy="newSocietyName" class="form-control" type="text">
+        <div class="input-group-append">
+          <button v-on:click="createSociety" class="btn btn-success">Create</button>
+        </div>
+      </div>
+    </b-popover>
+    <!--Delete society popup-->
+    <b-popover placement="auto" target="delete-button" title="Select society to delete">
+      <div class="input-group">
+        <select v-model="societyToDelete" class="custom-select">
+          <option disabled value="">Please select one</option>
+          <option v-for="society in userSocietiesInfo.committees"
+                  :key="'d'+society._id" :value="society">{{society.name}}</option>
+        </select>
+        <div class="input-group-append">
+          <button class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </b-popover>
+    <!--Leave society popup-->
+    <b-popover placement="auto" target="leave-button" title="Select society to leave">
+      <div class="input-group">
+        <select v-model="societyToLeave" class="custom-select">
+          <option disabled value="">Please select one</option>
+          <option v-for="society in userSocietiesInfo.joined"
+                  :key="'d'+society._id" :value="society">{{society.name}}</option>
+        </select>
+        <div class="input-group-append">
+          <button v-on:click="leaveSociety" class="btn btn-danger">Leave</button>
+        </div>
+      </div>
+    </b-popover>
   </nav>
 </template>
 
@@ -61,15 +88,15 @@ export default {
   data: function() {
     return {
       societyToLeave: null,
-      societyToDelete: null
+      societyToDelete: null,
+      newSocietyName: ''
     };
   },
   methods: {
     createSociety() {
-      var societyName = prompt('Enter name of society');
-      if (societyName) {
+      if (this.newSocietyName) {
         axios.post('http://localhost:3000/user', null,
-          {params: {userId: this.$store.state.userId, societyName: societyName}})
+          {params: {userId: this.$store.state.userId, societyName: this.newSocietyName}})
           .then((response) => {
             console.log(response.data);
             this.$emit('refresh');
@@ -139,7 +166,7 @@ export default {
   background: #f1f1f1;
   padding: 20px;
   min-height: 100vh;
-  box-shadow: 0 0 20px #c0c0c0;
+  box-shadow: -5px 0 10px 5px #c0c0c0;
 }
 .title {
   font-size: 3.25rem;
@@ -150,7 +177,7 @@ export default {
   background: #cccccc;
 }
 .item {
-  font-size: 1.25rem;
+  font-size: 1rem;
   overflow: hidden;
   text-overflow: clip;
   border: none;
@@ -158,7 +185,7 @@ export default {
   border-bottom: 1px solid #b9b9b9;
 }
 .heading-item {
-  font-size: 2rem;
+  font-size: 1.5rem;
   overflow: hidden;
   text-overflow: clip;
   border: none;

@@ -36,7 +36,6 @@ export default {
   methods: {
     showAvailableSocieties(event) {
       // todo will update when more pages are added
-      console.log('event: ', event);
       if (this.page === 'home') {
         this.page = 'available';
       } else {
