@@ -6,34 +6,32 @@
         Society Scheduler
       </li>
       <!--Committees-->
-      <li v-if="userSocietiesInfo.committees" class="heading border-bottom border-dark mt-3 mx-3 pb-0">
-        <a class="">Committees</a>
+      <li class="divider">
       </li>
-      <li class="item pl-4 btn btn-outline-primary text-left">
-        Southampton Union Rugby
+      <li v-on:click="createSociety" class="my-2 px-3 heading-item btn btn-outline-primary text-left">
+        Create Society
       </li>
-      <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id" v-on:click="committeeClick(society)"
+      <li class="divider">
+      </li>
+      <li v-on:click="createSociety" class="my-2 px-3 heading-item btn btn-outline-primary text-left">
+        Delete Society
+      </li>
+      <li v-if="userSocietiesInfo.committees" class="heading px-3 py-2">
+        <a class="">My Societies</a>
+      </li>
+      <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id" v-on:click="(society)"
           class="item pl-4 btn btn-outline-primary text-left">
         {{society.name}}
       </li>
-      <li v-on:click="createSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
-        Create Society
-      </li>
-      <li v-on:click="createSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
-        Delete Society
-      </li>
       <!--Joined Societies-->
-      <li v-if="userSocietiesInfo.joined" class="heading border-bottom border-dark mt-3 mx-3">
-        <a class="">Societies</a>
-      </li>
-      <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id" v-on:click="committeeClick(society)"
-          class="item px-4 btn btn-outline-primary text-left">
-        {{society.name}}
-      </li>
-      <li v-on:click="showAvailableSocieties" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+      <li v-on:click="showAvailableSocieties"
+          class="my-2 px-3 heading-item btn btn-outline-primary text-left">
         Join Societies
       </li>
-      <li id="leave-button" v-on:click="openedLeaveSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+      <li class="divider">
+      </li>
+      <li id="leave-button" v-on:click="openedLeaveSociety"
+          class="my-2 px-3 heading-item btn btn-outline-primary text-left">
         Leave Society
       </li>
       <b-popover placement="rightbottom" target="leave-button" title="Select society to leave">
@@ -45,6 +43,13 @@
         </b-dropdown>
         <button v-on:click="leaveSociety" class="btn btn-success">Leave</button>
       </b-popover>
+      <li v-if="userSocietiesInfo.joined" class="heading px-3 py-2">
+        <a class="">Joined Societies</a>
+      </li>
+      <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id"
+          class="item px-4 btn btn-outline-primary text-left">
+        {{society.name}}
+      </li>
     </ul>
   </nav>
 </template>
@@ -55,14 +60,11 @@ export default {
   name: 'sidebar',
   data: function() {
     return {
-      societyToLeave: null
+      societyToLeave: null,
+      societyToDelete: null
     };
   },
   methods: {
-    showAvailableSocieties() {
-      // send event to parent event handler
-      this.$emit('action', 'available');
-    },
     createSociety() {
       var societyName = prompt('Enter name of society');
       if (societyName) {
@@ -77,7 +79,31 @@ export default {
           });
       }
     },
+    openedDeleteSociety() {
+      // reset society to delete
+      this.societyToDelete = null;
+    },
+    choseDeteleSociety(society) {
+      this.societyToDelete = society;
+    },
     deleteSociety() {
+      if (this.societyToDelete) {
+        axios.delete('http://localhost:3000/society',
+          {params: {userId: this.$store.state.userId, societyId: this.societyToDelete._id}})
+          .then((response) => {
+            console.log(response.data);
+            this.$emit('refresh');
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+    getSocietyAvailability(society) {
+    },
+    showAvailableSocieties() {
+      // send event to parent event handler
+      this.$emit('action', 'available');
     },
     openedLeaveSociety() {
       // reset society to leave
@@ -119,8 +145,9 @@ export default {
   font-size: 3.25rem;
 }
 .heading {
-  font-size: 2rem;
-  border-color: #2e2e2e;
+  font-size: 1.5rem;
+  border-color: #b9b9b9;
+  background: #cccccc;
 }
 .item {
   font-size: 1.25rem;
@@ -128,6 +155,7 @@ export default {
   text-overflow: clip;
   border: none;
   border-radius: 0;
+  border-bottom: 1px solid #b9b9b9;
 }
 .heading-item {
   font-size: 2rem;
@@ -135,5 +163,8 @@ export default {
   text-overflow: clip;
   border: none;
   border-radius: 0;
+}
+.divider {
+  border-bottom: 1px solid #b9b9b9;
 }
 </style>

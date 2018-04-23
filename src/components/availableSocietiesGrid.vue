@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-alert dismissible variant="success" :show="joinedSociety" @dismissed="joinedSociety=null">
+    <b-alert dismissible variant="success" :show="!!joinedSociety" @dismissed="joinedSociety=null">
       You have joined {{joinedSociety}}!
     </b-alert>
     <div class="row">
