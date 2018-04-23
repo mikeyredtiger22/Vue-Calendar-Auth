@@ -16,6 +16,12 @@
           class="item pl-4 btn btn-outline-primary text-left">
         {{society.name}}
       </li>
+      <li v-on:click="createSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+        Create Society
+      </li>
+      <li v-on:click="createSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+        Delete Society
+      </li>
       <!--Joined Societies-->
       <li v-if="userSocietiesInfo.joined" class="heading border-bottom border-dark mt-3 mx-3">
         <a class="">Societies</a>
@@ -24,14 +30,21 @@
           class="item px-4 btn btn-outline-primary text-left">
         {{society.name}}
       </li>
-      <!--<li class="border-bottom mt-3 border-dark">-->
-      <!--</li>-->
       <li v-on:click="showAvailableSocieties" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
         Join Societies
       </li>
-      <li v-on:click="createSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
-        Create Society
+      <li id="leave-button" v-on:click="openedLeaveSociety" class="mt-4 px-3 heading-item btn btn-outline-primary text-left">
+        Leave Society
       </li>
+      <b-popover placement="rightbottom" target="leave-button" title="Select society to leave">
+        <b-dropdown text="Select">
+          <b-dropdown-item-button v-for="society in userSocietiesInfo.joined" :key="'d'+society._id"
+                                  v-on:click="choseLeaveSociety(society)">
+            {{society.name}}
+          </b-dropdown-item-button>
+        </b-dropdown>
+        <button v-on:click="leaveSociety" class="btn btn-success">Leave</button>
+      </b-popover>
     </ul>
   </nav>
 </template>
@@ -40,6 +53,11 @@
 import axios from 'axios';
 export default {
   name: 'sidebar',
+  data: function() {
+    return {
+      societyToLeave: null
+    };
+  },
   methods: {
     showAvailableSocieties() {
       // send event to parent event handler
@@ -50,6 +68,28 @@ export default {
       if (societyName) {
         axios.post('http://localhost:3000/user', null,
           {params: {userId: this.$store.state.userId, societyName: societyName}})
+          .then((response) => {
+            console.log(response.data);
+            this.$emit('refresh');
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+    deleteSociety() {
+    },
+    openedLeaveSociety() {
+      // reset society to leave
+      this.societyToLeave = null;
+    },
+    choseLeaveSociety(society) {
+      this.societyToLeave = society;
+    },
+    leaveSociety() {
+      if (this.societyToLeave) {
+        axios.delete('http://localhost:3000/user',
+          {params: {userId: this.$store.state.userId, societyId: this.societyToLeave._id}})
           .then((response) => {
             console.log(response.data);
             this.$emit('refresh');
@@ -73,6 +113,7 @@ export default {
   background: #f1f1f1;
   padding: 20px;
   min-height: 100vh;
+  box-shadow: 0 0 20px #c0c0c0;
 }
 .title {
   font-size: 3.25rem;
