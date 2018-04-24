@@ -4,10 +4,12 @@
       You have joined {{joinedSociety}}!
     </b-alert>
     <div class="row">
-      <div v-for="society in availableSocieties" :key="society._id" class="card m-3" style="width: auto">
-        <div class="card-body">
-          <h2 class="card-title">{{society.name}}</h2>
-          <a v-on:click="joinSociety(society)" class="btn btn-success">Join Society</a>
+      <div class="col" v-for="society in availableSocieties" :key="society._id">
+        <div class="card m-3">
+          <div class="card-body">
+            <h2 class="card-title">{{society.name}}</h2>
+            <a v-on:click="joinSociety(society)" class="btn btn-success">Join Society</a>
+          </div>
         </div>
       </div>
     </div>

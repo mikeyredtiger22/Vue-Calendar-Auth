@@ -158,8 +158,6 @@ export default {
 <style scoped>
 .sidebar {
   background: #f1f1f1;
-  padding: 20px;
-  min-height: 100vh;
   box-shadow: 0 0 5px 2.5px #e0e0e0;
 }
 .title {
@@ -186,5 +184,10 @@ export default {
 }
 .divider {
   border-bottom: 1px solid #b9b9b9;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    min-height: 100vh;
+  }
 }
 </style>

@@ -5,11 +5,13 @@
         <sidebar v-on:action="showAvailableSocieties" v-on:refresh="refreshUserSocietiesInfo"></sidebar>
       </div>
       <div class="col-12 col-md-8 col-lg-9 p-4">
-        <available-societies-grid class="grid" v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
-        </available-societies-grid>
-        <div v-if="this.page === 'home'" class="homePage">
-          <h1>Home Page</h1>
-          <p>Welcome Person {{getUserId}}</p>
+        <div class="grid">
+          <available-societies-grid v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
+          </available-societies-grid>
+          <div v-if="this.page === 'home'" class="homePage">
+            <h1>Home Page</h1>
+            <p>Welcome Person {{getUserId}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -64,24 +66,17 @@ export default {
 };
 </script>
 <style scoped>
-.sb {
-  position: relative;
-}
-.grid {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  overflow: scroll;
-}
-.cont {
-  position: relative;
-}
-/* if sidebar is shown on left, fix sidebar and scroll content page*/
 @media (min-width: 768px) {
-  .scrollingContentPage {
-    /*overflow: auto;*/
-    /*height: 100vh;*/
+  .grid {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    overflow-y: scroll;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 </style>
