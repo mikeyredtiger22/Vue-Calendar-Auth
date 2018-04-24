@@ -2,12 +2,24 @@
   <div class="container-fluid cont">
     <div class="row">
       <div class="col-12 col-md-4 col-lg-3 p-0 sb">
-        <sidebar v-on:action="showAvailableSocieties" v-on:refresh="refreshUserSocietiesInfo"></sidebar>
+        <!--sidebar-->
+        <sidebar v-on:action="showAvailableSocieties" v-on:refresh="refreshUserSocietiesInfo"
+        v-on:successMsg="successMsg" v-on:errorMsg="errorMsg">
+        </sidebar>
       </div>
-      <div class="col-12 col-md-8 col-lg-9 p-4">
-        <div class="grid">
+      <div class="col-12 col-md-8 col-lg-9 p-0">
+        <div class="grid p-4">
+          <!--alert messages-->
+          <b-alert dismissible variant="success" :show="!!successMessage" @dismissed="successMessage=null">
+            {{successMessage}}
+          </b-alert>
+          <b-alert dismissible variant="danger" :show="!!errorMessage" @dismissed="errorMessage=null">
+            {{errorMessage}}
+          </b-alert>
+          <!--available societies grid page-->
           <available-societies-grid v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
           </available-societies-grid>
+          <!--home page-->
           <div v-if="this.page === 'home'" class="homePage">
             <h1>Home Page</h1>
             <p>Welcome Person {{getUserId}}</p>
@@ -27,7 +39,9 @@ export default {
   components: {sidebar, availableSocietiesGrid},
   data: function() {
     return {
-      page: 'home'
+      page: 'home',
+      successMessage: null,
+      errorMessage: null
     };
   },
   computed: {
@@ -36,7 +50,7 @@ export default {
     }
   },
   methods: {
-    showAvailableSocieties(event) {
+    showAvailableSocieties() {
       // todo will update when more pages are added
       if (this.page === 'home') {
         this.page = 'available';
@@ -52,6 +66,12 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+    },
+    successMsg: function(message) {
+      this.successMessage = message;
+    },
+    errorMsg(message) {
+      this.errorMessage = message;
     }
   },
   beforeCreate: function() {

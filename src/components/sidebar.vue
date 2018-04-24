@@ -8,12 +8,13 @@
       <!--Committees-->
       <li class="divider">
       </li>
-      <li id="create-button" class="py-2 px-3 heading-item btn btn-outline-primary text-left">
+      <li id="create-button" tabindex="-1"
+          class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Create Society <span class="pl-2">&#9656;</span>
       </li>
       <li class="divider">
       </li>
-      <li id="delete-button" v-on:click="openedDeleteSociety"
+      <li id="delete-button" v-on:click="openedDeleteSociety"  tabindex="-1"
           class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Delete Society <span class="pl-2">&#9656;</span>
       </li>
@@ -31,12 +32,12 @@
       </li>
       <li class="divider">
       </li>
-      <li id="leave-button" v-on:click="openedLeaveSociety"
-          class="py-2 px-3 heading-item btn btn-outline-primary text-left">
-        Leave Society <span class="pl-2">&#9656;</span>
+      <li v-on:click="openedLeaveSociety" id="leave-button" tabindex="-1"
+           class="py-2 px-3 heading-item btn btn-outline-primary text-left">
+          TEST Societies
       </li>
       <li v-if="userSocietiesInfo.joined" class="heading px-3 py-2">
-        <a class="">Joined Societies</a>
+        <a>Joined Societies</a>
       </li>
       <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id"
           class="item px-4 btn btn-outline-primary text-left">
@@ -44,7 +45,7 @@
       </li>
     </ul>
     <!--Create society popup-->
-    <b-popover placement="auto" target="create-button" title="Enter name of new society">
+    <b-popover triggers="click blur" placement="auto" target="create-button" title="Enter name of new society">
       <div class="input-group">
           <input v-model.lazy="newSocietyName" class="form-control" type="text">
         <div class="input-group-append">
@@ -53,7 +54,7 @@
       </div>
     </b-popover>
     <!--Delete society popup-->
-    <b-popover placement="auto" target="delete-button" title="Select society to delete">
+    <b-popover triggers="click blur" placement="auto" target="delete-button" title="Select society to delete">
       <div class="input-group">
         <select v-model="societyToDelete" class="custom-select">
           <option disabled value="">Please select one</option>
@@ -66,7 +67,7 @@
       </div>
     </b-popover>
     <!--Leave society popup-->
-    <b-popover placement="auto" target="leave-button" title="Select society to leave">
+    <b-popover triggers="click blur" placement="auto" target="leave-button" title="Select society to leave">
       <div class="input-group">
         <select v-model="societyToLeave" class="custom-select">
           <option disabled value="">Please select one</option>
@@ -99,6 +100,12 @@ export default {
           {params: {userId: this.$store.state.userId, societyName: this.newSocietyName}})
           .then((response) => {
             console.log(response.data);
+            if (response.data.societyId) {
+              this.$emit('successMsg', 'Society \'' + this.newSocietyName + '\' created.');
+            }
+            if (response.data.nameDuplicate) {
+              this.$emit('errorMsg', 'This society name has already been taken. Please choose a unique name.');
+            }
             this.$emit('refresh');
           })
           .catch(function (error) {
@@ -116,6 +123,9 @@ export default {
           {params: {userId: this.$store.state.userId, societyId: this.societyToDelete._id}})
           .then((response) => {
             console.log(response.data);
+            if (response.data.deleted) {
+              this.$emit('successMsg', 'Society \'' + this.societyToDelete.name + '\' deleted.');
+            }
             this.$emit('refresh');
           })
           .catch(function (error) {
@@ -139,6 +149,9 @@ export default {
           {params: {userId: this.$store.state.userId, societyId: this.societyToLeave._id}})
           .then((response) => {
             console.log(response.data);
+            if (response.data.removed) {
+              this.$emit('successMsg', 'You have left \'' + this.societyToLeave.name + '\'.');
+            }
             this.$emit('refresh');
           })
           .catch(function (error) {
@@ -177,10 +190,12 @@ export default {
   border-bottom: 1px solid #b9b9b9;
 }
 .heading-item {
+  width: 100%;
   font-size: 1.5rem;
   text-overflow: clip;
   border: none;
   border-radius: 0;
+  box-shadow: none;
 }
 .divider {
   border-bottom: 1px solid #b9b9b9;
