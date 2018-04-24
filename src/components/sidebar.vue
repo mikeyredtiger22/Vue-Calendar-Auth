@@ -133,6 +133,8 @@ export default {
       }
     },
     getSocietyAvailability(society) {
+      // todo save cache in 'store'
+      // todo refresh cache if more than 1 day old
       axios.get('http://localhost:3000/society',
         {params: {userId: this.$store.state.userId, societyId: society._id}})
         .then((response) => {
