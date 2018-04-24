@@ -61,7 +61,7 @@
                   :key="'d'+society._id" :value="society">{{society.name}}</option>
         </select>
         <div class="input-group-append">
-          <button class="btn btn-danger">Delete</button>
+          <button v-on:click="deleteSociety" class="btn btn-danger">Delete</button>
         </div>
       </div>
     </b-popover>
@@ -110,9 +110,6 @@ export default {
       // reset society to delete
       this.societyToDelete = null;
     },
-    choseDeteleSociety(society) {
-      this.societyToDelete = society;
-    },
     deleteSociety() {
       if (this.societyToDelete) {
         axios.delete('http://localhost:3000/society',
@@ -135,9 +132,6 @@ export default {
     openedLeaveSociety() {
       // reset society to leave
       this.societyToLeave = null;
-    },
-    choseLeaveSociety(society) {
-      this.societyToLeave = society;
     },
     leaveSociety() {
       if (this.societyToLeave) {
@@ -166,7 +160,7 @@ export default {
   background: #f1f1f1;
   padding: 20px;
   min-height: 100vh;
-  box-shadow: -5px 0 10px 5px #c0c0c0;
+  box-shadow: 0 0 5px 2.5px #e0e0e0;
 }
 .title {
   font-size: 3.25rem;
@@ -186,7 +180,6 @@ export default {
 }
 .heading-item {
   font-size: 1.5rem;
-  overflow: hidden;
   text-overflow: clip;
   border: none;
   border-radius: 0;

@@ -1,11 +1,11 @@
 <template>
-  <div class="container-fluid full-height">
-    <div class="row full-height">
-      <div class="col-12 col-md-4 col-lg-3 p-0">
+  <div class="container-fluid cont">
+    <div class="row">
+      <div class="col-12 col-md-4 col-lg-3 p-0 sb">
         <sidebar v-on:action="showAvailableSocieties" v-on:refresh="refreshUserSocietiesInfo"></sidebar>
       </div>
-      <div class="col-12 col-md-8 col-lg-9 p-4 scrollingContentPage">
-        <available-societies-grid v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
+      <div class="col-12 col-md-8 col-lg-9 p-4">
+        <available-societies-grid class="grid" v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
         </available-societies-grid>
         <div v-if="this.page === 'home'" class="homePage">
           <h1>Home Page</h1>
@@ -63,16 +63,25 @@ export default {
   }
 };
 </script>
-
 <style scoped>
-.full-height {
-  min-height: 100%;
+.sb {
+  position: relative;
+}
+.grid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  overflow: scroll;
+}
+.cont {
+  position: relative;
 }
 /* if sidebar is shown on left, fix sidebar and scroll content page*/
 @media (min-width: 768px) {
   .scrollingContentPage {
-    overflow: auto;
-    height: 100vh;
+    /*overflow: auto;*/
+    /*height: 100vh;*/
   }
 }
 </style>
