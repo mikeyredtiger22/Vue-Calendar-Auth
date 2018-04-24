@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     joinSociety(society) {
-      axios.put('http://localhost:3000/user', null, // todo make api request file
+      axios.put('http://localhost:3000/user', null,
         {params: {userId: this.$store.state.userId, societyId: society._id}})
         .then((response) => {
           if (response.data.joined) {

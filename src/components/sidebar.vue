@@ -14,40 +14,40 @@
       </li>
       <li class="divider">
       </li>
-      <li id="delete-button" v-on:click="openedDeleteSociety"  tabindex="-1"
+      <li v-if="userSocietiesInfo.committees" id="delete-button" v-on:click="openedDeleteSociety"  tabindex="-1"
           class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Delete Society <span class="pl-2">&#9656;</span>
       </li>
       <li v-if="userSocietiesInfo.committees" class="heading px-3 py-2">
         <a class="">My Societies</a>
       </li>
-      <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id" v-on:click="(society)"
-          class="item pl-4 btn btn-outline-primary text-left">
+      <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id"
+          v-on:click="getSocietyAvailability(society)" class="item pl-4 btn btn-outline-primary text-left">
         {{society.name}}
       </li>
       <!--Joined Societies-->
-      <li v-on:click="showAvailableSocieties"
+      <li v-on:click="changeContentPage('join')"
           class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Join Societies <span class="pl-2">&#9656;</span>
       </li>
       <li class="divider">
       </li>
-      <li v-on:click="openedLeaveSociety" id="leave-button" tabindex="-1"
+      <li v-if="userSocietiesInfo.joined"  v-on:click="openedLeaveSociety" id="leave-button" tabindex="-1"
            class="py-2 px-3 heading-item btn btn-outline-primary text-left">
-          TEST Societies
+        Leave Society <span class="pl-2">&#9656;</span>
       </li>
       <li v-if="userSocietiesInfo.joined" class="heading px-3 py-2">
         <a>Joined Societies</a>
       </li>
       <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id"
-          class="item px-4 btn btn-outline-primary text-left">
+          class="item px-4 btn disabled btn-outline-dark text-left">
         {{society.name}}
       </li>
     </ul>
     <!--Create society popup-->
     <b-popover triggers="click blur" placement="auto" target="create-button" title="Enter name of new society">
       <div class="input-group">
-          <input v-model.lazy="newSocietyName" class="form-control" type="text">
+          <input v-model.lazy="newSocietyName" class="form-control" type="text" title="">
         <div class="input-group-append">
           <button v-on:click="createSociety" class="btn btn-success">Create</button>
         </div>
@@ -56,7 +56,7 @@
     <!--Delete society popup-->
     <b-popover triggers="click blur" placement="auto" target="delete-button" title="Select society to delete">
       <div class="input-group">
-        <select v-model="societyToDelete" class="custom-select">
+        <select v-model="societyToDelete" class="custom-select" title="">
           <option disabled value="">Please select one</option>
           <option v-for="society in userSocietiesInfo.committees"
                   :key="'d'+society._id" :value="society">{{society.name}}</option>
@@ -69,7 +69,7 @@
     <!--Leave society popup-->
     <b-popover triggers="click blur" placement="auto" target="leave-button" title="Select society to leave">
       <div class="input-group">
-        <select v-model="societyToLeave" class="custom-select">
+        <select v-model="societyToLeave" class="custom-select" title="">
           <option disabled value="">Please select one</option>
           <option v-for="society in userSocietiesInfo.joined"
                   :key="'d'+society._id" :value="society">{{society.name}}</option>
@@ -122,7 +122,6 @@ export default {
         axios.delete('http://localhost:3000/society',
           {params: {userId: this.$store.state.userId, societyId: this.societyToDelete._id}})
           .then((response) => {
-            console.log(response.data);
             if (response.data.deleted) {
               this.$emit('successMsg', 'Society \'' + this.societyToDelete.name + '\' deleted.');
             }
@@ -134,10 +133,18 @@ export default {
       }
     },
     getSocietyAvailability(society) {
+      axios.get('http://localhost:3000/society',
+        {params: {userId: this.$store.state.userId, societyId: society._id}})
+        .then((response) => {
+          // this.$store.commit('setUserSocietiesInfo', response.data);
+          this.$emit('showAvailability', response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    showAvailableSocieties() {
-      // send event to parent event handler
-      this.$emit('action', 'available');
+    showJoined() {
+      this.$emit('showJoined');
     },
     openedLeaveSociety() {
       // reset society to leave
@@ -148,7 +155,6 @@ export default {
         axios.delete('http://localhost:3000/user',
           {params: {userId: this.$store.state.userId, societyId: this.societyToLeave._id}})
           .then((response) => {
-            console.log(response.data);
             if (response.data.removed) {
               this.$emit('successMsg', 'You have left \'' + this.societyToLeave.name + '\'.');
             }

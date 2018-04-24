@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-12 col-md-4 col-lg-3 p-0 sb">
         <!--sidebar-->
-        <sidebar v-on:action="showAvailableSocieties" v-on:refresh="refreshUserSocietiesInfo"
-        v-on:successMsg="successMsg" v-on:errorMsg="errorMsg">
+        <sidebar v-on:showJoined="showJoined" v-on:showAvailability="showAvailability"
+                 v-on:refresh="refreshUserSocietiesInfo" v-on:successMsg="successMsg" v-on:errorMsg="errorMsg">
         </sidebar>
       </div>
       <div class="col-12 col-md-8 col-lg-9 p-0">
@@ -17,13 +17,15 @@
             {{errorMessage}}
           </b-alert>
           <!--available societies grid page-->
-          <available-societies-grid v-if="this.page === 'available'" v-on:refresh="refreshUserSocietiesInfo">
+          <available-societies-grid v-if="this.page === 'join'" v-on:refresh="refreshUserSocietiesInfo">
           </available-societies-grid>
           <!--home page-->
           <div v-if="this.page === 'home'" class="homePage">
             <h1>Home Page</h1>
             <p>Welcome Person {{getUserId}}</p>
           </div>
+          <availability v-if="this.page === 'availability'" v-bind:availabilityData="availabilityData">
+          </availability>
         </div>
       </div>
     </div>
@@ -34,14 +36,16 @@
 import axios from 'axios';
 import sidebar from './sidebar';
 import availableSocietiesGrid from './availableSocietiesGrid';
+import availability from './availability';
 export default {
   name: 'Template',
-  components: {sidebar, availableSocietiesGrid},
+  components: {availability, sidebar, availableSocietiesGrid},
   data: function() {
     return {
       page: 'home',
       successMessage: null,
-      errorMessage: null
+      errorMessage: null,
+      availabilityData: null
     };
   },
   computed: {
@@ -50,14 +54,6 @@ export default {
     }
   },
   methods: {
-    showAvailableSocieties() {
-      // todo will update when more pages are added
-      if (this.page === 'home') {
-        this.page = 'available';
-      } else {
-        this.page = 'home';
-      }
-    },
     refreshUserSocietiesInfo() {
       axios.get('http://localhost:3000/user', {params: {userId: this.$store.state.userId}})
         .then((response) => {
@@ -67,11 +63,18 @@ export default {
           console.log(error);
         });
     },
-    successMsg: function(message) {
+    successMsg(message) {
       this.successMessage = message;
     },
     errorMsg(message) {
       this.errorMessage = message;
+    },
+    showJoined() {
+      this.page = ((this.page === 'join') ? 'home' : 'join');
+    },
+    showAvailability(availabilityData) {
+      this.availabilityData = availabilityData;
+      this.page = 'availability';
     }
   },
   beforeCreate: function() {
