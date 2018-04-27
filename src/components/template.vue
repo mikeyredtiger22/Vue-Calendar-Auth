@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     refreshUserSocietiesInfo() {
-      axios.get(process.env.api_url + '/user', {params: {userId: this.$store.state.userId}})
+      axios.get('https://ss-calendar.herokuapp.com/user', {params: {userId: this.$store.state.userId}})
         .then((response) => {
           this.$store.commit('setUserSocietiesInfo', response.data);
         })
@@ -80,7 +80,7 @@ export default {
     }
   },
   beforeCreate: function() {
-    axios.get(process.env.api_url + '/user', {params: {userId: this.$store.state.userId}})
+    axios.get('https://ss-calendar.herokuapp.com/user', {params: {userId: this.$store.state.userId}})
       .then((response) => {
         this.$store.commit('setUserSocietiesInfo', response.data);
       })

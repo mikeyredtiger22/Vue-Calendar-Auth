@@ -14,7 +14,7 @@ export default {
     handleAuthClick() {
       var authRequest = 'https://accounts.google.com/o/oauth2/v2/auth?' +
         'client_id=595041614107-vquf4bbtc6agdv9tl906q22gjf2vj7sd.apps.googleusercontent.com' +
-        '&redirect_uri=' + process.env.api_url + '/auth' +
+        '&redirect_uri=https://ss-calendar.herokuapp.com/auth' +
         '&scope=https://www.googleapis.com/auth/calendar.readonly profile' +
         '&access_type=offline' +
         '&response_type=code';
