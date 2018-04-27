@@ -21,8 +21,7 @@
           </available-societies-grid>
           <!--home page-->
           <div v-if="this.page === 'home'" class="homePage">
-            <h1>Home Page</h1>
-            <p>Welcome Person {{getUserId}}</p>
+            <h1>Welcome to Society Scheduler</h1>
           </div>
           <availability v-if="this.page === 'availability'" v-bind:availabilityData="availabilityData"
                         v-bind:society="availabilitySociety">

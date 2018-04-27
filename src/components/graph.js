@@ -3,37 +3,47 @@ export default {
   extends: HorizontalBar,
   name: 'graph',
   props: ['availabilityData'],
-  methods: {
-    getLabels() {
-      // var startDate = this.availabilityData.startDate;
-      // var date = new Date(startDate);
+  watch: {
+    availabilityData: function() {
+      this.$data._chart.destroy();
+      this.renderData();
+    }
+  },
+  computed: {
+    getLabels: function() {
+      var startDate = this.availabilityData.startDate;
+      var date = new Date(startDate); // automatically converts to local timezone
       var n = this.availabilityData.availability.length;
-      n = 50;
-      var a = [];
+      n = 100;
+      var labels = [];
       for (var i = 0; i < n; i++) {
-        a.push(i);
+        labels.push(date.toLocaleString());
+        date.setHours(date.getHours() + 1);
       }
-      return a;
+      return labels;
     },
     getDataPoints() {
-      return this.availabilityData.availability.splice(0, 50);
+      return this.availabilityData.availability.splice(0, 100);
+    }
+  },
+  methods: {
+    renderData() {
+      this.renderChart(
+        {
+          labels: this.getLabels,
+          datasets: [{
+            label: '',
+            backgroundColor: '#0000ff',
+            data: this.getDataPoints
+          }]
+        },
+        {
+          responsive: true,
+          maintainAspectRatio: false
+        });
     }
   },
   mounted () {
-    console.log(this.availabilityData);
-    // Overwriting base render method with actual data.
-    this.renderChart(
-      {
-        labels: this.getLabels(),
-        datasets: [{
-          label: '',
-          backgroundColor: '#0000ff',
-          data: this.getDataPoints()
-        }]
-      },
-      {
-        responsive: true,
-        maintainAspectRatio: false
-      });
+    this.renderData();
   }
 };
