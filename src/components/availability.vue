@@ -1,9 +1,12 @@
 <template>
   <div>
     <h1>
-      Availability
+      {{society.name}} Availability
     </h1>
-    <graph class="chart-container" v-bind:availabilityData="availabilityData">
+    <h2 v-if="availabilityData.error">
+      This society has no members
+    </h2>
+    <graph v-else class="chart-container" v-bind:availabilityData="availabilityData">
     </graph>
   </div>
 </template>
@@ -11,7 +14,7 @@
 import graph from './graph';
 export default {
   name: 'availability',
-  props: ['availabilityData'],
+  props: ['availabilityData', 'society'],
   components: {
     graph
   },
@@ -25,7 +28,7 @@ export default {
 <style scoped>
 .chart-container {
   position: relative;
-  height: 100vh;
+  height: 200vh;
   width: 50%;
 }
 </style>

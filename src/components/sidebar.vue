@@ -14,11 +14,11 @@
       </li>
       <li class="divider">
       </li>
-      <li v-if="userSocietiesInfo.committees" id="delete-button" v-on:click="openedDeleteSociety"  tabindex="-1"
+      <li v-show="userSocietiesInfo.committees.length" id="delete-button" v-on:click="openedDeleteSociety"  tabindex="-1"
           class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Delete Society <span class="pl-2">&#9656;</span>
       </li>
-      <li v-if="userSocietiesInfo.committees" class="heading px-3 py-2">
+      <li v-show="userSocietiesInfo.committees.length" class="heading px-3 py-2">
         <a class="">My Societies</a>
       </li>
       <li v-for="society in userSocietiesInfo.committees" :key="'c'+society._id"
@@ -26,17 +26,17 @@
         {{society.name}}
       </li>
       <!--Joined Societies-->
-      <li v-on:click="changeContentPage('join')"
+      <li v-on:click="showJoined"
           class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Join Societies <span class="pl-2">&#9656;</span>
       </li>
       <li class="divider">
       </li>
-      <li v-if="userSocietiesInfo.joined"  v-on:click="openedLeaveSociety" id="leave-button" tabindex="-1"
+      <li v-show="userSocietiesInfo.joined.length"  v-on:click="openedLeaveSociety" id="leave-button" tabindex="-1"
            class="py-2 px-3 heading-item btn btn-outline-primary text-left">
         Leave Society <span class="pl-2">&#9656;</span>
       </li>
-      <li v-if="userSocietiesInfo.joined" class="heading px-3 py-2">
+      <li v-show="userSocietiesInfo.joined.length" class="heading px-3 py-2">
         <a>Joined Societies</a>
       </li>
       <li v-for="society in userSocietiesInfo.joined" :key="'j'+society._id"
@@ -133,13 +133,10 @@ export default {
       }
     },
     getSocietyAvailability(society) {
-      // todo save cache in 'store'
-      // todo refresh cache if more than 1 day old
       axios.get('http://localhost:3000/society',
         {params: {userId: this.$store.state.userId, societyId: society._id}})
         .then((response) => {
-          // this.$store.commit('setUserSocietiesInfo', response.data);
-          this.$emit('showAvailability', response.data);
+          this.$emit('showAvailability', response.data, society);
         })
         .catch(function (error) {
           console.log(error);

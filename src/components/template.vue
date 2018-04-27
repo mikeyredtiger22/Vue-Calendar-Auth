@@ -24,7 +24,8 @@
             <h1>Home Page</h1>
             <p>Welcome Person {{getUserId}}</p>
           </div>
-          <availability v-if="this.page === 'availability'" v-bind:availabilityData="availabilityData">
+          <availability v-if="this.page === 'availability'" v-bind:availabilityData="availabilityData"
+                        v-bind:society="availabilitySociety">
           </availability>
         </div>
       </div>
@@ -45,7 +46,8 @@ export default {
       page: 'home',
       successMessage: null,
       errorMessage: null,
-      availabilityData: null
+      availabilityData: null,
+      availabilitySociety: null
     };
   },
   computed: {
@@ -72,8 +74,9 @@ export default {
     showJoined() {
       this.page = ((this.page === 'join') ? 'home' : 'join');
     },
-    showAvailability(availabilityData) {
+    showAvailability(availabilityData, society) {
       this.availabilityData = availabilityData;
+      this.availabilitySociety = society;
       this.page = 'availability';
     }
   },
