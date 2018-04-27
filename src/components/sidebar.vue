@@ -96,7 +96,7 @@ export default {
   methods: {
     createSociety() {
       if (this.newSocietyName) {
-        axios.post('http://localhost:3000/user', null,
+        axios.post(process.env.api_url + '/user', null,
           {params: {userId: this.$store.state.userId, societyName: this.newSocietyName}})
           .then((response) => {
             console.log(response.data);
@@ -119,7 +119,7 @@ export default {
     },
     deleteSociety() {
       if (this.societyToDelete) {
-        axios.delete('http://localhost:3000/society',
+        axios.delete(process.env.api_url + '/society',
           {params: {userId: this.$store.state.userId, societyId: this.societyToDelete._id}})
           .then((response) => {
             if (response.data.deleted) {
@@ -133,7 +133,7 @@ export default {
       }
     },
     getSocietyAvailability(society) {
-      axios.get('http://localhost:3000/society',
+      axios.get(process.env.api_url + '0/society',
         {params: {userId: this.$store.state.userId, societyId: society._id}})
         .then((response) => {
           this.$emit('showAvailability', response.data, society);
@@ -151,7 +151,7 @@ export default {
     },
     leaveSociety() {
       if (this.societyToLeave) {
-        axios.delete('http://localhost:3000/user',
+        axios.delete(process.env.api_url + '/user',
           {params: {userId: this.$store.state.userId, societyId: this.societyToLeave._id}})
           .then((response) => {
             if (response.data.removed) {

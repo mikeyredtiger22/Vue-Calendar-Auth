@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     joinSociety(society) {
-      axios.put('http://localhost:3000/user', null,
+      axios.put(process.env.api_url + '/user', null,
         {params: {userId: this.$store.state.userId, societyId: society._id}})
         .then((response) => {
           if (response.data.joined) {
