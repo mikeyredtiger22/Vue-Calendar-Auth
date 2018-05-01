@@ -4,7 +4,7 @@
       You have joined {{joinedSociety}}!
     </b-alert>
     <h1>Societies</h1>
-    <h2 v-show="availableSocieties">There are no societies to join at the moment.</h2>
+    <h2 v-show="!availableSocieties">There are no societies to join at the moment.</h2>
     <div class="row">
       <div class="col" v-for="society in availableSocieties" :key="society._id">
         <div class="card m-3">
